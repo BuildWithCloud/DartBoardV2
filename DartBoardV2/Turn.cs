@@ -3,7 +3,7 @@
 public class Turn
 {
     private int NumOfThrows;
-    private Throw[] Throws;
+    public Throw[] Throws;
     
     public Turn(int numOfThrows)
     {

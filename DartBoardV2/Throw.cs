@@ -9,7 +9,7 @@ public class Throw
         Score = score;
         Multiplier = multiplier;
     }
-    public int GetThrowScore()
+    public int GetScore()
     {
         return Score * (int)Multiplier;
     }
