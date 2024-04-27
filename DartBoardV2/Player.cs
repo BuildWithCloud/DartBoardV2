@@ -12,6 +12,15 @@ public class Player
     {
         Turns.Add(turn);
     }
+    public void RemoveLastTurn()
+    {
+        Turns.RemoveAt(Turns.Count - 1);
+    }
+
+    public Turn GetLastTurn()
+    {
+        return Turns[^1];
+    }
     public int GetScore()
     {
         int score = 0;
@@ -23,5 +32,20 @@ public class Player
             }
         }
         return score;
+    }
+    public void ExportData() // export the turns as a CSV, it adds it on the end of the previous restults
+    {
+        var path = $@"C:\Users\Joe Bishop\Documents\02 - Home\02 - Areas\Darts\{Name}";
+        var streamReader = new StreamReader(path);
+        var output = streamReader.ReadToEnd();
+        
+        foreach (var turn in Turns)
+        {
+            output += turn.ToCSV() + "\n";
+        }
+        
+        var streamWriter = new StreamWriter(path);
+        streamWriter.Write(output);
+        streamWriter.Close();
     }
 }

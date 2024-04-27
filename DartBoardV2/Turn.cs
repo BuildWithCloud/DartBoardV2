@@ -15,4 +15,19 @@ public class Turn
         NumOfThrows = 3;
         Throws = new Throw[3];
     }
+    
+    public string ToCSV()
+    {
+        string output = "";
+        foreach (var @throw in Throws)
+        {
+            output += @throw.ToString() + ",";
+        }
+        return output;
+    }
+    
+    public Throw GetThrow(int throwNum)
+    {
+        return Throws[throwNum];
+    }
 }

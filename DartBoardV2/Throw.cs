@@ -13,4 +13,27 @@ public class Throw
     {
         return Score * (int)Multiplier;
     }
+
+    public override string ToString()
+    {
+        string output = "";
+        switch (Multiplier)
+        {
+            case Multiplier.Miss:
+                output += "M";
+                return output;
+                break;
+            case Multiplier.Single:
+                output += "";
+                break;
+            case Multiplier.Double:
+                output += "D ";
+                break;
+            case Multiplier.Triple:
+                output += "T";
+                break;
+        }
+        output += Score.ToString();
+        return output;
+    }
 }
