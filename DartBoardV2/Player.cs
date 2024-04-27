@@ -33,12 +33,21 @@ public class Player
         }
         return score;
     }
-    public void ExportData() // export the turns as a CSV, it adds it on the end of the previous restults
+    public void ExportData() // export the turns as a CSV, it adds it on the end of the previous results
     {
+        var output = "";
         var path = $@"C:\Users\Joe Bishop\Documents\02 - Home\02 - Areas\Darts\{Name}";
-        var streamReader = new StreamReader(path);
-        var output = streamReader.ReadToEnd();
-        
+        try
+        {
+            var streamReader = new StreamReader(path);
+            output = streamReader.ReadToEnd();
+        }
+        catch (FileNotFoundException)
+        {
+        }
+
+        output += $"GameTime:, {DateTimeOffset.UtcNow.ToUnixTimeSeconds()}\n";
+            
         foreach (var turn in Turns)
         {
             output += turn.ToCSV() + "\n";
