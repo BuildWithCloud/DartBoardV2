@@ -19,14 +19,14 @@ public class Game
         {
             return true;
         }
-        if (_players[_currentPlayer].GetScore() > DownFrom -1)
+        if (_players[_currentPlayer].GetScore() > DownFrom)
         {
             Console.WriteLine("Bust!");
             _players[_currentPlayer].RemoveLastTurn();
             return true;
         }
 
-        if (!MustFinishOnDouble ||  _players[_currentPlayer].GetLastTurn().GetThrow(2).Multiplier != Multiplier.Double)
+        if (!MustFinishOnDouble ||  _players[_currentPlayer].GetLastTurn().GetLastMultiplier() != Multiplier.Double)
         {
             Console.WriteLine("Last throw was not a double, you must finish on a double");
             _players[_currentPlayer].RemoveLastTurn();
@@ -41,21 +41,25 @@ public class Game
         // Before Game
         FrontEnd.Instructions();
         Console.ReadLine();
-        
+        bool endGame = false;
         // During Game
-        do
+        while (!endGame)
         {
             Console.Clear();
             DisplayGameDetails();
-            Turn currentTurn = new Turn();
+            _players[_currentPlayer].AddTurn(new Turn());
             for (int i = 0; i < 3; i++)
             {
-                currentTurn.Throws[i] = FrontEnd.GetThrow();
+                _players[_currentPlayer].Turns[^1].Throws.Add(FrontEnd.GetThrow());
+                if (!GameContinue())
+                {
+                    endGame = true;
+                    break;
+                }
             }
-            _players[_currentPlayer].AddTurn(currentTurn);
             _currentPlayer = (_currentPlayer + 1) % _players.Length;
-        }while(GameContinue());
-        
+        }
+
         AskAndExportData();
     }
 
@@ -82,7 +86,7 @@ public class Game
                 }
                 catch
                 {
-                    Console.WriteLine("It was not possible to export the data.");
+                    Console.WriteLine("It was not possible to export the data. Check that the file is not open in another program.");
                     AskAndExportData();
                 }
             }

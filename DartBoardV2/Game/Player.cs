@@ -3,7 +3,7 @@
 public class Player
 {
     public string Name;
-    private List<Turn> Turns = new List<Turn>();
+    public List<Turn> Turns = new List<Turn>();
     public Player(string name)
     {
         Name = name;
@@ -36,11 +36,12 @@ public class Player
     public void ExportData() // export the turns as a CSV, it adds it on the end of the previous results
     {
         var output = "";
-        var path = $@"C:\Users\Joe Bishop\Documents\02 - Home\02 - Areas\Darts\{Name}";
+        var path = $@"C:\Users\Joe Bishop\Documents\02 - Home\02 - Areas\Darts\{Name}.csv";
         try
         {
             var streamReader = new StreamReader(path);
             output = streamReader.ReadToEnd();
+            streamReader.Close();
         }
         catch (FileNotFoundException)
         {
