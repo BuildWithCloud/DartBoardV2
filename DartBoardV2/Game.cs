@@ -3,8 +3,8 @@
 public class Game
 {
     private int _currentPlayer;
-    private Player[] _players;
-    private int _downFrom = 301;
+    private readonly Player[] _players;
+    private const int DownFrom = 301;
     private const bool MustFinishOnDouble = true;
     
     public Game(Player[] players)
@@ -15,11 +15,11 @@ public class Game
 
     private bool GameContinue()
     {
-        if (_players[_currentPlayer].GetScore() < _downFrom)
+        if (_players[_currentPlayer].GetScore() < DownFrom -1)
         {
             return true;
         }
-        if (_players[_currentPlayer].GetScore() > _downFrom -1)
+        if (_players[_currentPlayer].GetScore() > DownFrom -1)
         {
             Console.WriteLine("Bust!");
             _players[_currentPlayer].RemoveLastTurn();
@@ -56,15 +56,7 @@ public class Game
             _currentPlayer = (_currentPlayer + 1) % _players.Length;
         }while(GameContinue());
         
-        // After Game
-        Console.WriteLine("Do you want to export the data? (y/n)");
-        if (Console.ReadLine() == "y")
-        {
-            foreach (var player in _players)
-            {
-                player.ExportData();
-            }
-        }
+        AskAndExportData();
     }
 
     private void DisplayGameDetails()
@@ -72,9 +64,29 @@ public class Game
         Console.WriteLine("Scores: ");
         foreach (var player in _players)
         {
-            Console.WriteLine($"{player.Name}: {_downFrom - player.GetScore()}");
+            Console.WriteLine($"{player.Name}: {DownFrom - player.GetScore()}");
         }
         Console.WriteLine($"Current Player: {_players[_currentPlayer].Name}");
+    }
+
+    private void AskAndExportData()
+    {
+        Console.WriteLine("Do you want to export the data? (y/n)");
+        if (Console.ReadLine() == "y")
+        {
+            foreach (var player in _players)
+            {
+                try
+                {
+                    player.ExportData();
+                }
+                catch
+                {
+                    Console.WriteLine("It was not possible to export the data.");
+                    AskAndExportData();
+                }
+            }
+        }
     }
 }
 
