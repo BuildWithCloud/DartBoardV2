@@ -47,6 +47,7 @@ public class Game
         {
             Console.Clear();
             DisplayGameDetails();
+                
             _players[_currentPlayer].AddTurn(new Turn());
             for (int i = 0; i < 3; i++)
             {
@@ -92,5 +93,7 @@ public class Game
             }
         }
     }
+
+   
 }
 

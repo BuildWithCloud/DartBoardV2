@@ -27,7 +27,7 @@ public class Throw
                 output += "";
                 break;
             case Multiplier.Double:
-                output += "D ";
+                output += "D";
                 break;
             case Multiplier.Triple:
                 output += "T";
